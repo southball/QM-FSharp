@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Utilities.fs" />
     <Compile Include="QM.Implementation.fs" />
     <Compile Include="QM.Tests.fs" />
     <Compile Include="Program.fs" />

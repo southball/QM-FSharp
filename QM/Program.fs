@@ -1,7 +1,32 @@
 ﻿// For more information see https://aka.ms/fsharp-console-apps
 open QM.Implementation
+open QM.Utilities
 
-let g = QMTerm.FromInt 4
-let f = [0; 1; 2; 4; 5; 6; 9; 10]
+printf "Please enter number of bits: "
+let numberOfBits = System.Console.ReadLine() |> int
+let toQMTerm = QMTerm.FromInt numberOfBits
 
-simplify (f |> List.map g) |> ignore
+printf "Please enter minterms, separated by space or comma: "
+
+let minterms =
+    System.Console.ReadLine().Split([| ' '; ',' |])
+    |> Array.filter (String.length >> (<>) 0)
+    |> Array.map (int >> toQMTerm)
+    |> Array.toList
+
+printf "Please enter don't-care terms, separated by space or comma: "
+
+let dcterms =
+    System.Console.ReadLine().Split([| ' '; ',' |])
+    |> Array.filter (String.length >> (<>) 0)
+    |> Array.map (int >> toQMTerm)
+    |> Array.toList
+
+let solution = simplify minterms dcterms
+printfn ""
+
+printfn
+    "%s"
+    (solution
+     |> List.map debugFormatPrimeImplicant
+     |> String.concat " + ")
